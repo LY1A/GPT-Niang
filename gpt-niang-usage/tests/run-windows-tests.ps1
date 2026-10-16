@@ -16,6 +16,10 @@ foreach($name in @('installation.test.ps1','update.test.ps1','lifecycle.test.ps1
   else {& $powerShell -NoProfile -STA -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot $name)}
   if($LASTEXITCODE-ne 0){throw "$name failed ($LASTEXITCODE)"}
 }
+foreach($quotaTest in @('quota-mood.test.ps1','quota-editor.test.ps1','quota-integration.test.ps1')){
+  & $powerShell -NoProfile -STA -ExecutionPolicy Bypass -File (Join-Path $PSScriptRoot $quotaTest)
+  if($LASTEXITCODE-ne 0){throw "$quotaTest failed"}
+}
 $widgetTestArgs=@('-NoProfile','-STA','-ExecutionPolicy','Bypass','-File',$PSCommandPath,'-WidgetOnly')
 if($PreviewDirectory){$widgetTestArgs+=@('-PreviewDirectory',$PreviewDirectory)}
 & $powerShell @widgetTestArgs
